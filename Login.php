@@ -11,48 +11,47 @@
 <body>
 	<div class="jumbotron jumbotron-fluid">
 		<div class="container text-center">
-			<center><h1 class="display-3">INSTRUCTOR</h1></center>
+			<center><h1 class="display-2">INSTRUCTOR</h1></center>
 		</div>
 	</div>
 	<form action="" method="POST">
-		<div class="form-group">
-			<label>Ma Giang Vien </label>
-			<input type="text" name="idGV" class="form-control" >
-		</div>
-		<div class="form-group">
-			<label>Password</label>
-			<input type="Password " name="MK" class="form-control">
-		</div>
-		<input type="submit" name="submit1" id = "button1" class="btn btn-outline-primary form-control" value="Login">
-		<script language="JavaScript">
-			var button = document.getElementById("button1");
-			button.onclick = function(){
-				alert("Welcome Back");
-			}
-		</script>
-		<!-- form chi ddây -->
-	</form> 
+	<div class="form-group">
+		<label>Ma Giang Vien </label>
+		<input type="text" name="idGV" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>Password</label>
+		<input type="pass" name="MK" class="form-control">
+	</div>
+	<input type="submit" name="submit1" id = "button1" class="btn btn-outline-primary form-control" value="Login">
+	<script language="JavaScript">
+		var button = document.getElementById("button1");
+		button.onclick = function(){
+			alert("Welcome Back");
+		}
+	</script>
+	<form>
 		<?php
 		 include('../Quanlydaotao/Connect/connect.php'); 
 		if(isset($_POST['submit1'])) {
 			$idGV = $_POST['idGV'];
-			$MK = ($_POST['MK']);
-			$sql = "SELECT IDGV, Password FROM lopgiangvien WHERE IDGV = '$idGV'"; //dư dấu nháy
-			// var_dump($sql);
-			echo $sql;
+			$MK = md5($_POST['MK']);
+			$sql = 'SELECT MaGiangVien, PassWord FROM giangvien WHERE MaGiangVien = "'.$idGV.'"';
+			var_dump($sql);
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while ($row = $result->fetch_assoc()) {
-					if($row['IDGV'] == $idGV && $row['Password'] == $MK) {
+					if($row['MaGiangVien'] == $idGV && $row['PassWord'] == $MK) {
 						session_start();
-						$_SESSION['IDGV'] = $idGV;
-						header('Location: Instructors/showinformation.php');
+						$SESSION['MaGiangVien'] = $idGV;
+						header('location: Instructors/showinformation.php');
 					}
 				}
-			}else{
+			}else {
 				echo'Rất tiếc đã hack không thành công ^^';
 			}
 		}
-	?>
+		?>
+	</form>
 </body>
 </html>
